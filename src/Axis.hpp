@@ -18,9 +18,14 @@ public:
 
   void detach();
 
+  int setAngle(int pAngle);
+
+  int getAngle();
+
 protected:
-  int mPin;
+  unsigned mPin;
   int mOffset;
+  int mAngle;
   int mMinAngle;
   int mMaxAngle;
   int mDefaultAngle;

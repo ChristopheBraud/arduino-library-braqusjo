@@ -36,8 +36,31 @@ bool Braqusjo::stop() {
   return lStopped;
 }
 
+void Braqusjo::move(int pDuration, int *pAngles) {
+  unsigned long lStart = millis();
+  int lStartAngles[6];
+  for(int iAxis = 0; iAxis < 6; ++iAxis) {
+    lStartAngles[iAxis] = mAxes[iAxis].getAngle();
+  }
+  int lAngles[6];
+  while(millis() - lStart < pDuration) {
+    for(int iAxis = 0; iAxis < 6; ++iAxis) {
+      lAngles[iAxis] = map(millis() - lStart, 0, pDuration, lStartAngles[iAxis], pAngles[iAxis]);
+    }
+    setAngles((lAngles));
+    delay(1);
+  }
+  setAngles(pAngles);
+}
+
+void Braqusjo::setAngles(int *pAngles) {
+  for(int iAxis = 0; iAxis < 6; ++iAxis) {
+    mAxes[iAxis].setAngle(pAngles[iAxis]);
+  }
+}
+
 void Braqusjo::softStart() {
-  int lStartTime = millis();
+  unsigned long lStartTime = millis();
   while(millis() - lStartTime < 2000) {
     delayMicroseconds(80);
     digitalWrite(SOFT_START_PIN, LOW);

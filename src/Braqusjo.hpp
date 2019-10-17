@@ -15,6 +15,10 @@ public:
 
   bool stop();
 
+  void move(int pDuration, int pAngles[6]);
+
+  void setAngles(int pAngles[6]);
+
 protected:
   const int SOFT_START_PIN = 12;
 
