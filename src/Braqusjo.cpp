@@ -5,7 +5,7 @@
 #include "Braqusjo.hpp"
 #include <Arduino.h>
 
-Braqusjo::Braqusjo(unsigned pVersion) {
+void Braqusjo::begin(unsigned pVersion) {
   mHasSoftStart = pVersion >= 4;  // SoftStart appears on shield V4
   mAxes[0].init(11, 0, 180, 90);  // Base
   mAxes[1].init(10, 15, 165, 45); // Shoulder
@@ -13,27 +13,17 @@ Braqusjo::Braqusjo(unsigned pVersion) {
   mAxes[3].init(6, 0, 180, 0);    // Wrist
   mAxes[4].init(5, 0, 180, 90);   // Wrist Rotation
   mAxes[5].init(3, 10, 73, 73);   // Gripper
-}
-
-bool Braqusjo::start() {
   for(int i = 0; i < 6; ++i) {
     mAxes[i].attach();
   }
-  bool lStarted = false;
-  if(mHasSoftStart) {
-    softStart();
-    lStarted = true;
-  }
-  return lStarted;
+  softStart();
 }
 
-bool Braqusjo::stop() {
-  bool lStopped  = false;
-  if(mHasSoftStart) {
-    powerOff();
-    lStopped = true;
+void Braqusjo::end() {
+  powerOff();
+  for(int i = 0; i < 6; ++i) {
+    mAxes[i].detach();
   }
-  return lStopped;
 }
 
 void Braqusjo::move(int pDuration, int *pAngles) {
@@ -59,16 +49,26 @@ void Braqusjo::setAngles(int *pAngles) {
   }
 }
 
+void Braqusjo::getAngles(int *pAngles) {
+  for(int iAxis = 0; iAxis < 6; ++iAxis) {
+    pAngles[iAxis] = mAxes[iAxis].getAngle();
+  }
+}
+
 void Braqusjo::softStart() {
-  unsigned long lStartTime = millis();
-  while(millis() - lStartTime < 2000) {
-    delayMicroseconds(80);
-    digitalWrite(SOFT_START_PIN, LOW);
-    delayMicroseconds(530 - 80);
-    digitalWrite(SOFT_START_PIN, HIGH);
+  if(mHasSoftStart) {
+    unsigned long lStartTime = millis();
+    while(millis() - lStartTime < 2000) {
+      delayMicroseconds(80);
+      digitalWrite(SOFT_START_PIN, LOW);
+      delayMicroseconds(530 - 80);
+      digitalWrite(SOFT_START_PIN, HIGH);
+    }
   }
 }
 
 void Braqusjo::powerOff() {
-  digitalWrite(SOFT_START_PIN, LOW);
+  if(mHasSoftStart) {
+    digitalWrite(SOFT_START_PIN, LOW);
+  }
 }

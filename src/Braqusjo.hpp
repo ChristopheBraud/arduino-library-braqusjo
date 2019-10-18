@@ -9,15 +9,15 @@
 
 class Braqusjo {
 public:
-  Braqusjo(unsigned pVersion);
+  void begin(unsigned pVersion);
 
-  bool start();
-
-  bool stop();
+  void end();
 
   void move(int pDuration, int pAngles[6]);
 
   void setAngles(int pAngles[6]);
+
+  void getAngles(int pAngles[6]);
 
 protected:
   const int SOFT_START_PIN = 12;
