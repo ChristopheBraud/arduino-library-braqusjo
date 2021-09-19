@@ -1,0 +1,25 @@
+{
+  "name": "Braqusjo",
+  "version": "0.1.0",
+  "description": "Full braccio shield support",
+  "keywords": "braccio, robot, arm, servo",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/ChristopheBraud/braqusjo.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Christophe Braud",
+      "email": "christophe.braud@gmx.fr",
+      "maintainer": true
+    }
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "arduino-libraries/Servo": "^1.1.8"
+  },
+  "frameworks": "arduino",
+  "platforms": "uno"
+}

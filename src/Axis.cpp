@@ -12,7 +12,7 @@ void Axis::init(unsigned pPin, int pMinAngle, int pMaxAngle, int pDefaultAngle) 
   mPin = pPin;
   mMinAngle = pMinAngle;
   mMaxAngle = pMaxAngle;
-  mDefaultAngle = max(mMinAngle, min(mMaxAngle, pDefaultAngle));
+  mDefaultAngle = constrain(pDefaultAngle, mMinAngle, mMaxAngle);
 }
 
 void Axis::attach() {
@@ -20,13 +20,17 @@ void Axis::attach() {
   setAngle(mDefaultAngle);
 }
 
-void  Axis::detach() {
+void Axis::detach() {
   mServo.detach();
 }
 
+void Axis::setOffset(int pOffset) {
+  mOffset = pOffset;
+}
+
 int Axis::setAngle(int pAngle) {
-  int lAngle = max(mMinAngle, min(mMaxAngle, pAngle));
-  mAngle = map(lAngle, 0, 180, 500, 2500);
+  int lAngle = constrain(pAngle + mOffset, mMinAngle, mMaxAngle);
+  mAngle = constrain(map(lAngle, 0, 180, 500, 2500), 500, 2500);
   mServo.writeMicroseconds(mAngle);
   return lAngle;
 }

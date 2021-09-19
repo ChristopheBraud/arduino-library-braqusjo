@@ -6,11 +6,17 @@
 # Class (KEYWORD1)
 ##################################
 
-Braqusjo	KEYWORD1
+Braqusjo	              KEYWORD1
 
 ##################################
 # Methods and Functions (KEYWORD2)
 ##################################
 
-start	KEYWORD2
-stop	KEYWORD2
+setAxesOffset             KEYWORD2
+setPuppetAxesOffset       KEYWORD2
+begin                     KEYWORD2
+end                       KEYWORD2
+move                      KEYWORD2
+setAngles                 KEYWORD2
+getAngles                 KEYWORD2
+getPuppetAngles           KEYWORD2

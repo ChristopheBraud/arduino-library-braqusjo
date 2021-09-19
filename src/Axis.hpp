@@ -18,6 +18,8 @@ public:
 
   void detach();
 
+  void setOffset(int pOffset);
+
   int setAngle(int pAngle);
 
   int getAngle();

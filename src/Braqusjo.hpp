@@ -9,15 +9,21 @@
 
 class Braqusjo {
 public:
-  void begin(unsigned pVersion);
+  void setAxesOffset(int base, int shoulder, int elbow, int wristPitch, int wristRoll, int gripper);
+
+  void setPuppetAxesOffset(int base, int shoulder, int elbow, int wristPitch, int wristRoll, int gripper);
+
+  void begin(unsigned version);
 
   void end();
 
-  void move(int pDuration, int pAngles[6]);
+  void move(unsigned long duration, int angles[6]);
 
-  void setAngles(int pAngles[6]);
+  void setAngles(int angles[6]);
 
-  void getAngles(int pAngles[6]);
+  void getAngles(int angles[6]);
+
+  void getPuppetAngles(int angles[6]);
 
 protected:
   const int SOFT_START_PIN = 12;
@@ -25,6 +31,10 @@ protected:
   bool mHasSoftStart;
 
   Axis mAxes[6];
+
+  int mAxesOffsets[6];
+
+  int mPuppetAxesOffsets[6];
 
 private:
   void softStart();
