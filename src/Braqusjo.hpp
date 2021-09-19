@@ -11,7 +11,11 @@ class Braqusjo {
 public:
   void setAxesOffset(int base, int shoulder, int elbow, int wristPitch, int wristRoll, int gripper);
 
+  void setAxesOffset(int axesOffsets[]);
+
   void setPuppetAxesOffset(int base, int shoulder, int elbow, int wristPitch, int wristRoll, int gripper);
+
+  void setPuppetAxesOffset(int axesOffsets[]);
 
   void begin(unsigned version);
 
@@ -24,6 +28,8 @@ public:
   void getAngles(int angles[6]);
 
   void getPuppetAngles(int angles[6]);
+
+  int getPuppetOffset(int axisIndex);
 
 protected:
   const int SOFT_START_PIN = 12;

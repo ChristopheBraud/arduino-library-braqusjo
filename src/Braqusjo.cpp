@@ -14,6 +14,12 @@ void Braqusjo::setAxesOffset(int base, int shoulder, int elbow, int wristPitch, 
   mAxes[5].setOffset(gripper);
 }
 
+void Braqusjo::setAxesOffset(int axesOffsets[]) {
+  for(int iAxis = 0; iAxis < 6; ++iAxis) {
+    mAxes[iAxis].setOffset(axesOffsets[iAxis]);
+  }
+}
+
 void Braqusjo::setPuppetAxesOffset(int base, int shoulder, int elbow, int wristPitch, int wristRoll, int gripper) {
   mPuppetAxesOffsets[0] = base;
   mPuppetAxesOffsets[1] = shoulder;
@@ -21,6 +27,12 @@ void Braqusjo::setPuppetAxesOffset(int base, int shoulder, int elbow, int wristP
   mPuppetAxesOffsets[3] = wristPitch;
   mPuppetAxesOffsets[4] = wristRoll;
   mPuppetAxesOffsets[5] = gripper;
+}
+
+void Braqusjo::setPuppetAxesOffset(int axesOffsets[]) {
+  for(int iAxis = 0; iAxis < 6; ++iAxis) {
+    mPuppetAxesOffsets[iAxis] = axesOffsets[iAxis];
+  }
 }
 
 void Braqusjo::begin(unsigned version) {
@@ -74,18 +86,17 @@ void Braqusjo::getAngles(int *angles) {
 }
 
 void Braqusjo::getPuppetAngles(int *angles) {
-  uint8_t lPorts[6] = {A0, A1, A2, A3, A4, A5};
-  for(int iAngle = 0; iAngle < 6; ++iAngle) {
-    Serial.print(analogRead(lPorts[iAngle]) + mPuppetAxesOffsets[iAngle] - 512);
-    Serial.print(' ');
-  }
-  Serial.println();
   angles[0] = constrain(map(analogRead(A0) + mPuppetAxesOffsets[0], 170, 854, 0, 180), 0, 180);
   angles[1] = constrain(map(analogRead(A1) + mPuppetAxesOffsets[1], 170, 854, 0, 180), 0, 180);
   angles[2] = constrain(map(analogRead(A2) + mPuppetAxesOffsets[2], 170, 854, 180, 0), 0, 180);
   angles[3] = constrain(map(analogRead(A3) + mPuppetAxesOffsets[3], 170, 854, 0, 180), 0, 180);
   angles[4] = constrain(map(analogRead(A4) + mPuppetAxesOffsets[4], 227, 797, 15, 165), 15, 165);
   angles[5] = constrain(map(analogRead(A5) + mPuppetAxesOffsets[5], 0, 1024, 10, 73), 10, 73);
+}
+
+int Braqusjo::getPuppetOffset(int axisIndex) {
+  uint8_t lPorts[6] = {A0, A1, A2, A3, A4, A5};
+  return analogRead(lPorts[axisIndex])- 512;
 }
 
 void Braqusjo::softStart() {
