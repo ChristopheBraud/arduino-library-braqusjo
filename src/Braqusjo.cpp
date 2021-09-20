@@ -96,7 +96,7 @@ void Braqusjo::getPuppetAngles(int *angles) {
 
 int Braqusjo::getPuppetOffset(int axisIndex) {
   uint8_t lPorts[6] = {A0, A1, A2, A3, A4, A5};
-  return analogRead(lPorts[axisIndex])- 512;
+  return 512 - analogRead(lPorts[axisIndex]);
 }
 
 void Braqusjo::softStart() {
